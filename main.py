@@ -16,6 +16,15 @@ INSERT_AFTER = 'm = "apps/home/main.py"'
 BOOT_FILE = 'boot.py'
 APP_DIR = 'apps/bcaller~usbmouse'
 TILT_SENSITIVITY = 25
+INSERT = '''
+
+        import buttons
+        buttons.init(['BTN_B'])
+        if buttons.is_pressed('BTN_B'):
+            pyb.usb_mode('VCP+HID')
+            m = "%s/main.py"
+# > Mouse mode
+''' % APP_DIR
 
 
 def is_installed():
@@ -35,8 +44,7 @@ def install():
                 tempfile.write(line)
                 if INSERT_AFTER in line:
                     tempfile.write(START)
-                    with open(APP_DIR + sep + 'INSERT') as ins:
-                        tempfile.write(ins.read() % APP_DIR)
+                    tempfile.write(INSERT)                    
     # Overwrite old boot.py
     # This is necessary as pyb.usb_mode must be called inside boot.py
     # The usb_mode cannot be changed after pyb.main

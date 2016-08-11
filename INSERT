@@ -1,7 +1,0 @@
-
-        import buttons
-        buttons.init(['BTN_B'])
-        if buttons.is_pressed('BTN_B'):
-            pyb.usb_mode('VCP+HID')
-            m = "%s/main.py"
-# > Mouse mode
